@@ -1,0 +1,17 @@
+{
+  "name": "ranchero-booth",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jaketrent/ranchero-booth",
+  "authors": [
+    "jaketrent"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
