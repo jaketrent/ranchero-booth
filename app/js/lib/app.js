@@ -1,8 +1,9 @@
 console.log('App started')
 
+var choose = document.querySelector('.choose')
 var fileInput = document.querySelector('.file')
 var canvas = document.querySelector('.canvas')
-//var download = document.querySelector('.download')
+var download = document.querySelector('.download')
 var ctx = canvas.getContext('2d')
 var mouseIsDown = false
 
@@ -27,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // draw img on canvas
     avatar.onload = () => {
+      addClass(choose, 'is-hidden')
+      removeClass(download, 'is-hidden')
       ctx.drawImage(avatar, 0, 0, canvas.width, avatar.height * (canvas.height / avatar.width))
 
       stache.src = 'img/stache-swirl-sm.png'
@@ -69,6 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
     return [x, y]
   }
 
+  var addClass = (el, className) => {
+    if (el.classList)
+      el.classList.add(className)
+    else
+      el.className += ' ' + className
+  }
+
+  var removeClass = (el, className) => {
+    if (el.classList)
+      el.classList.remove(className)
+    else
+      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ')
+  }
+
   canvas.addEventListener('mousedown', (e) => {
     var [x, y] = getCoords(e)
     if (isHit(x, y)) {
@@ -89,7 +106,14 @@ document.addEventListener('DOMContentLoaded', () => {
     mouseIsDown = false
   })
 
-//  download.addEventListener('click', (e) => {
-//    this.href = canvas.toDataURL('image/jpeg')
-//  })
+  download.addEventListener('click', (e) => {
+    download.href = canvas.toDataURL('image/jpeg')
+  })
+
+  choose.addEventListener('click', (e) => {
+    var event = document.createEvent('HTMLEvents')
+    event.initEvent('click', true, false)
+    fileInput.dispatchEvent(event)
+  })
+
 })

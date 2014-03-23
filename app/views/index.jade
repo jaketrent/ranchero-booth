@@ -5,10 +5,12 @@ html
     link(href="css/index.css", rel="stylesheet", type="text/css")
 
   body
-    h1 Ranchero Booth
+    img.title(alt="Ranchero Booth", src="img/title.png")
 
-    input.file(type="file")
-    canvas.canvas(height="300", width="300")
-    // a.download(download="rancheroified.jpg") Download
+    .container
+      button.btn.choose Choose your Mug
+      input.file(type="file")
+      canvas.canvas(height="300", width="300")
+      a.btn.download.is-hidden(download="rancheroified.jpg") Download
 
     script(src='js/dist.js')
