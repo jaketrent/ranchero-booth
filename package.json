@@ -4,7 +4,8 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "broccoli serve"
+    "start": "broccoli serve",
+    "generate": "rm -rf server/public; broccoli build server/public"
   },
   "repository": {
     "type": "git",

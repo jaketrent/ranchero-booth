@@ -1,0 +1,45 @@
+body {
+  background: #ababab;
+  font-family: sans-serif;
+}
+img {
+  max-width: 100%;
+}
+.is-hidden {
+  display: none !important;
+}
+.btn,
+input {
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+.btn {
+  padding: 0 30px;
+  color: #ababab;
+  font-size: 28px;
+  height: 50px;
+  line-height: 50px;
+  border-radius: 3px;
+  border: 0;
+  background: #fff;
+  text-align: center;
+  text-decoration: none;
+}
+.title {
+  display: block;
+  margin: 0 auto 30px auto;
+}
+.container {
+  width: 300px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+.file {
+  display: none;
+}
+.canvas {
+  display: block;
+  margin: 0 auto;
+  cursor: move;
+}
