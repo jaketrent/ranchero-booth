@@ -1,10 +1,10 @@
 {
   "name": "ranchero-booth",
   "version": "0.0.1",
-  "description": "ranchero-booth ==============",
   "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "broccoli serve"
   },
   "repository": {
     "type": "git",
@@ -12,13 +12,12 @@
   },
   "author": "jaketrent",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/jaketrent/ranchero-booth/issues"
-  },
-  "homepage": "https://github.com/jaketrent/ranchero-booth",
   "devDependencies": {
     "broccoli": "~0.4.1",
     "broccoli-jade": "~0.1.0",
-    "broccoli-stylus": "~0.1.1"
+    "broccoli-stylus": "~0.1.1",
+    "broccoli-static-compiler": "~0.1.2",
+    "broccoli-concat": "0.0.3",
+    "broccoli-traceur": "~0.1.0"
   }
 }
