@@ -1,8 +1,10 @@
 var concat = require('broccoli-concat')
+var env = require('broccoli-env').getEnv()
 var jade = require('broccoli-jade')
 var pickFiles = require('broccoli-static-compiler')
 var stylus = require('broccoli-stylus')
 var traceur = require('broccoli-traceur')
+var uglify = require('broccoli-uglify-js')
 
 module.exports = function (broccoli) {
 
@@ -12,7 +14,12 @@ module.exports = function (broccoli) {
     srcDir: '',
     destDir: 'lib'
   })
-
+  if (env == 'production') {
+    jsTree = uglify(jsTree, {
+      mangle: true,
+      compress: true
+    })
+  }
   jsTree = concat(jsTree, {
     inputFiles: [
       'lib/**/*.js'

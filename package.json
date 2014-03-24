@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "broccoli serve",
-    "generate": "rm -rf server/public; broccoli build server/public"
+    "generate": "rm -rf server/public; BROCCOLI_ENV=production broccoli build server/public"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,8 @@
     "broccoli-stylus": "~0.1.1",
     "broccoli-static-compiler": "~0.1.2",
     "broccoli-concat": "0.0.3",
-    "broccoli-traceur": "~0.1.0"
+    "broccoli-traceur": "~0.1.0",
+    "broccoli-uglify-js": "~0.1.1",
+    "broccoli-env": "0.0.1"
   }
 }
