@@ -8,9 +8,12 @@ html
     img.title(alt="Ranchero Booth", src="img/title.png")
 
     .container
-      button.btn.choose Choose your Mug
+      button.btn.chooseVid Capture
+      button.btn.choose Choose
+      video.video
       input.file(type="file")
       canvas.canvas(height="300", width="300")
       a.btn.download.is-hidden(download="rancheroified.jpg") Download
+      a.btn.capture.is-hidden(download="rancheroified.jpg") Use
 
     script(src='js/dist.js')
