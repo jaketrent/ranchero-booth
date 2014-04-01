@@ -30,8 +30,7 @@ var isValidFileType = (file) => {
 }
 
 var setupCanvas = () => {
-  addClass(choose, 'is-hidden')
-  removeClass(download, 'is-hidden')
+  stateMgr.enter('canvasImg')
 
   canvas.addEventListener('mousedown', (e) => { grabStache(e, avatar) })
   canvas.addEventListener('mousemove', (e) => { moveStache(e, avatar) })
@@ -81,24 +80,26 @@ var getCoords = (canvas, e) => {1
 }
 
 var addClass = (el, className) => {
-  if (el.classList)
-    el.classList.add(className)
-  else
-    el.className += ' ' + className
+  if (el) {
+    if (el.classList)
+      el.classList.add(className)
+    else
+      el.className += ' ' + className
+  }
 }
 
 var removeClass = (el, className) => {
-  if (el.classList)
-    el.classList.remove(className)
-  else
-    el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ')
+  if (el) {
+    if (el.classList)
+      el.classList.remove(className)
+    else
+      el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ')
+  }
 }
 
 var grabStache = (e) => {
-  console.log('grab')
   var [x, y] = getCoords(canvas, e)
   if (isHit(x, y)) {
-    console.log('hit')
     saveGrabOffset(x - stachePos.x, y - stachePos.y)
     mouseIsDown = true
   }
@@ -117,7 +118,7 @@ var releaseStache = (e) => {
 }
 
 var downloadCanvas = (e) => {
-  download.href = canvas.toDataURL('image/jpeg')
+  download.href = canvas.toDataURL('image/png')
 }
 
 var clickFileInput = (e) => {
@@ -126,9 +127,16 @@ var clickFileInput = (e) => {
   fileInput.dispatchEvent(event)
 }
 
+var toArray = (nodeList) => {
+  var arr = []
+  for (var i = 0, ref = arr.length = nodeList.length; i < ref; i++) {
+    arr[i] = nodeList[i]
+  }
+  return arr
+}
+
 var setupVideo = (e) => {
-  addClass(chooseVid, 'is-hidden')
-  removeClass(capture, 'is-hidden')
+  stateMgr.enter('captureVid')
 
   canvas.addEventListener('mousedown', (e) => { grabStache(e, vidFrame) })
   canvas.addEventListener('mousemove', (e) => { moveStache(e, vidFrame) })
@@ -162,11 +170,10 @@ var setupVideo = (e) => {
 }
 
 var captureVideoFrame = (e) => {
-  addClass(chooseVid, 'is-hidden')
-  removeClass(download, 'is-hidden')
+  stateMgr.enter('canvasVid')
 
   ctx.drawImage(video, 0, 0, canvas.width, video.height * (video.height / video.width))
-  vidFrame.src = canvas.toDataURL('image/jpeg')
+  vidFrame.src = canvas.toDataURL('image/png')
   vidFrame.onload = () => {
     stache.src = 'img/stache-swirl-sm.png'
     stache.onload = () => {
@@ -174,6 +181,57 @@ var captureVideoFrame = (e) => {
     }
   }
 }
+
+var stateMgr = {
+  states: {
+    // TODO: complete; not done because initial state
+    choose: {
+      add: { 'is-hidden': '.video, .capture, .canvas, .download' },
+      remove: { 'is-hidden': '.chooseVid, .choose, .prompt' }
+    },
+    captureVid: {
+      add: { 'is-hidden': '.choose, .chooseVid, .prompt' },
+      remove: { 'is-hidden': '.video, .capture' }
+    },
+    canvasImg: {
+      add: { 'is-hidden': '.choose, .chooseVid, .prompt' },
+      remove: { 'is-hidden': '.canvas, .download' }
+    },
+    canvasVid: {
+      add: { 'is-hidden': '.video, .capture' },
+      remove: { 'is-hidden': '.canvas, .download' }
+    }
+  },
+  enter: (name) => {
+    console.log('enter name: ' + name)
+
+    var state = stateMgr.states[name]
+
+    console.log('state')
+    console.log(state)
+
+    if (state.add) {
+      Object.keys(state.add).forEach((clazz) => {
+        console.log('add clazz: ' + clazz + ' -> ' + state.add[clazz])
+        toArray(document.querySelectorAll(state.add[clazz])).forEach((el) => {
+          console.log('el: ' + el)
+          addClass(el, clazz)
+        })
+      })
+    }
+
+    if (state.remove) {
+      Object.keys(state.remove).forEach((clazz) => {
+        console.log('rm clazz: ' + clazz + ' -> ' + state.add[clazz])
+        toArray(document.querySelectorAll(state.remove[clazz])).forEach((el) => {
+          console.log('el: ' + el)
+          removeClass(el, clazz)
+        })
+      })
+    }
+  }
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
   fileInput.addEventListener('change', (evt) => {
@@ -185,6 +243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     avatar.onload = setupCanvas
     readFile(file, avatar)
   })
+
+  stateMgr.enter('choose')
 
   capture.addEventListener('click', captureVideoFrame)
   chooseVid.addEventListener('click', setupVideo)

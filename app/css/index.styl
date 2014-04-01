@@ -1,23 +1,29 @@
 $canvas-width = 300px
 $canvas-height = 300px
 
+*
+  box-sizing: border-box
+
 body
   background: #ababab
   font-family: sans-serif
+  text-align: center
+  color: #fff
 
 img
   max-width: 100%
 
+.prompt
+  margin-bottom: 30px
+
 .is-hidden
   display: none !important
 
-.btn,
-input
-  display: block
-  margin: 0 auto
-  cursor: pointer
-
 .btn
+  display: block
+  margin: 0 auto 30px auto
+  cursor: pointer
+  width: 100%
   padding: 0 30px
   color: #ababab
   font-size: 28px
@@ -37,7 +43,6 @@ input
   width: $canvas-width
   max-width: 100%
   margin: 0 auto
-
 
 .file
   display: none

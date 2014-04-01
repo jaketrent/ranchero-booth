@@ -9,11 +9,16 @@ html
 
     .container
       button.btn.chooseVid Capture
+      .prompt or
       button.btn.choose Choose
-      video.video
+
       input.file(type="file")
+
+      video.video
+      button.btn.capture Use
+
       canvas.canvas(height="300", width="300")
-      a.btn.download.is-hidden(download="rancheroified.jpg") Download
-      a.btn.capture.is-hidden(download="rancheroified.jpg") Use
+
+      a.btn.download(download="rancheroified.png") Download
 
     script(src='js/dist.js')
