@@ -6,6 +6,7 @@ var chooseVid = document.querySelector('.chooseVid')
 var choose = document.querySelector('.choose')
 var download = document.querySelector('.download')
 var fileInput = document.querySelector('.file')
+var startover = document.querySelector('.startover')
 var video = document.querySelector('.video')
 
 var ctx = canvas.getContext('2d')
@@ -182,10 +183,14 @@ var captureVideoFrame = (e) => {
   }
 }
 
+var startOver = (e) => {
+  stateMgr.enter('choose')
+}
+
 var stateMgr = {
   states: {
     choose: {
-      add: { 'is-hidden': '.video, .capture, .canvas, .download' },
+      add: { 'is-hidden': '.video, .capture, .canvas, .download, .startover' },
       remove: { 'is-hidden': '.chooseVid, .choose, .prompt' }
     },
     captureVid: {
@@ -194,11 +199,11 @@ var stateMgr = {
     },
     canvasImg: {
       add: { 'is-hidden': '.choose, .chooseVid, .prompt' },
-      remove: { 'is-hidden': '.canvas, .download' }
+      remove: { 'is-hidden': '.canvas, .download, .startover' }
     },
     canvasVid: {
       add: { 'is-hidden': '.video, .capture' },
-      remove: { 'is-hidden': '.canvas, .download' }
+      remove: { 'is-hidden': '.canvas, .download, .startover' }
     }
   },
   enter: (name) => {
@@ -240,5 +245,6 @@ document.addEventListener('DOMContentLoaded', () => {
   chooseVid.addEventListener('click', setupVideo)
   download.addEventListener('click', downloadCanvas)
   choose.addEventListener('click', clickFileInput)
+  startover.addEventListener('click', startOver)
 
 })
