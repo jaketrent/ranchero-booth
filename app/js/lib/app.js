@@ -161,7 +161,7 @@ var setupVideo = (e) => {
   video.addEventListener('canplay', (ev) => {
     if (!streaming) {
       video.setAttribute('width', canvas.width)
-      video.setAttribute('height', canvas.height)
+      video.setAttribute('height', video.videoHeight * (canvas.height / video.videoWidth))
       canvas.setAttribute('width', canvas.width)
       canvas.setAttribute('height', canvas.height)
       streaming = true
@@ -172,7 +172,7 @@ var setupVideo = (e) => {
 var captureVideoFrame = (e) => {
   stateMgr.enter('canvasVid')
 
-  ctx.drawImage(video, 0, 0, canvas.width, video.height * (video.height / video.width))
+  ctx.drawImage(video, 0, 0, canvas.width, video.height)
   vidFrame.src = canvas.toDataURL('image/png')
   vidFrame.onload = () => {
     stache.src = 'img/stache-swirl-sm.png'
@@ -184,7 +184,6 @@ var captureVideoFrame = (e) => {
 
 var stateMgr = {
   states: {
-    // TODO: complete; not done because initial state
     choose: {
       add: { 'is-hidden': '.video, .capture, .canvas, .download' },
       remove: { 'is-hidden': '.chooseVid, .choose, .prompt' }
@@ -203,18 +202,11 @@ var stateMgr = {
     }
   },
   enter: (name) => {
-    console.log('enter name: ' + name)
-
     var state = stateMgr.states[name]
-
-    console.log('state')
-    console.log(state)
 
     if (state.add) {
       Object.keys(state.add).forEach((clazz) => {
-        console.log('add clazz: ' + clazz + ' -> ' + state.add[clazz])
         toArray(document.querySelectorAll(state.add[clazz])).forEach((el) => {
-          console.log('el: ' + el)
           addClass(el, clazz)
         })
       })
@@ -222,9 +214,7 @@ var stateMgr = {
 
     if (state.remove) {
       Object.keys(state.remove).forEach((clazz) => {
-        console.log('rm clazz: ' + clazz + ' -> ' + state.add[clazz])
         toArray(document.querySelectorAll(state.remove[clazz])).forEach((el) => {
-          console.log('el: ' + el)
           removeClass(el, clazz)
         })
       })
